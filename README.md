@@ -18,13 +18,19 @@ Static GitHub Pages site (single-page layout in `index.html`). Originally adapte
 | **结构化数据（Google 等）** | `<head>` 里 `<script type="application/ld+json">` | Person / 机构信息，可按需校对 |
 | **Favicon** | `<link href="data/海.ico" …>` | 换图标时改路径或替换 `data/` 下文件 |
 | **首页大标题 / 轮播词** | `id="home"` 的 `<section>` | 名字、副标题、`cd-words-wrapper` 里轮换的关键词 |
-| **关于我 + News** | `id="about"` 的 `<section>` | 简介、学校/导师链接、News 列表等 |
+| **关于我 + News** | `id="about"` 的 `<section>` | 简介、学校/导师链接、News、底部社交图标（Scholar / X / GitHub / LinkedIn / 邮箱） |
 | **论文 / 研究** | `id="research"` 的 `<section>` | 论文卡片、链接；筛选按钮与脚本逻辑在同文件靠后的 `<script>` |
 | **Misc（旅行、网球等）** | `id="portfolio"` 的 `<section>` | 过滤器文案、图片路径、说明文字 |
 | **页脚** | `<footer id="footer">` | 版权、访客地图脚本等 |
 | **导航栏** | `<nav id="navbar">` | 菜单文字与 `data-scroll-nav` 序号（需与各 section 的 `data-scroll-index` 一致） |
 
 **注意：** 若「About」在浏览器里看不到，检查 `id="about"` 的 `<section>` 是否带有 `style="display: none"`；要去掉隐藏时删除该属性即可。
+
+#### 论文列表与共一标注
+
+- 每条论文在 `id="research"` 下的 `div.pub-card` 里维护：标题、作者行、会议/期刊行、`Paper | Bibtex` 等。
+- **共一作者**：在姓名后加 `<sup>*</sup>`（右上角星号），并在作者行下方用一行小字说明，例如：`<sup>*</sup> Equal contribution (co-first authors).`
+- **BibTeX**：在 `@inproceedings` / `@article` 中可增加 `note={...}`，方便他人复制引用时看到同等贡献说明。
 
 ### 2. 图片与静态资源
 
