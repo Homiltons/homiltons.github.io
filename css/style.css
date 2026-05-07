@@ -1058,10 +1058,17 @@ section.research .paper-thumbnail img{
     border-radius:10px;
 }
 
-section.research .paper-thumbnail:hover img{
-    -webkit-box-shadow: 0 5px 30px #e3e3e3;
-    box-shadow: 0 5px 30px #e3e3e3;
-    border-color: #f2f2f2;
+section.research .pub-card{
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+section.research .pub-card:hover{
+    transform: translateY(-4px);
+    -webkit-box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
 /*============ 8. Portfolio Section ============*/

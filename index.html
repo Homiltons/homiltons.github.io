@@ -405,7 +405,8 @@
                     </h6>
                     <p class="info">
                       <a href="https://arxiv.org/abs/2511.06419">Paper</a> |
-                      <a shape="rect" href="javascript:togglebib('monica')" class="togglebib">Bibtex</a>
+                      <a shape="rect" href="javascript:togglebib('monica')" class="togglebib">Bibtex</a> |
+                      <a href="#" class="copy-bib-link" onclick="copyBibtex('monica', this); return false;">Copy BibTeX</a>
                       <pre id='monica' xml:space="preserve" style="display: none; margin: 0; padding: 0; text-align: left;">
 @article{hu2025monica,
   title={MONICA: Real-Time Monitoring and Calibration of Chain-of-Thought Sycophancy in Large Reasoning Models},
@@ -447,7 +448,8 @@
                     </h6>
                     <p class="info">
                       <a href="https://dl.acm.org/doi/abs/10.1145/3746027.3755230">Paper</a> |
-                      <a shape="rect" href="javascript:togglebib('brainsegdmif')" class="togglebib">Bibtex</a>
+                      <a shape="rect" href="javascript:togglebib('brainsegdmif')" class="togglebib">Bibtex</a> |
+                      <a href="#" class="copy-bib-link" onclick="copyBibtex('brainsegdmif', this); return false;">Copy BibTeX</a>
                       <pre id='brainsegdmif' xml:space="preserve" style="display: none; margin: 0; padding: 0; text-align: left;">
 @inproceedings{wang2025brainsegdmif,
   title={BrainSegDMIF: A Dynamic Fusion-enhanced SAM for Brain Lesion Segmentation},
@@ -1152,6 +1154,47 @@
       } else {
         bib.style.display = "none";   // 隐藏
       }
+    }
+
+    function copyBibtex(id, anchor) {
+      var pre = document.getElementById(id);
+      if (!pre || !anchor) return false;
+      var text = (pre.textContent || pre.innerText || "").trim();
+      var defaultLabel = anchor.getAttribute("data-copy-label") || anchor.textContent;
+      if (!anchor.getAttribute("data-copy-label")) {
+        anchor.setAttribute("data-copy-label", defaultLabel);
+      }
+      function showCopied() {
+        anchor.textContent = "Copied!";
+        setTimeout(function () {
+          anchor.textContent = anchor.getAttribute("data-copy-label");
+        }, 1600);
+      }
+      function fallbackCopy() {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+          showCopied();
+        } catch (err) {
+          anchor.textContent = "Copy failed";
+          setTimeout(function () {
+            anchor.textContent = anchor.getAttribute("data-copy-label");
+          }, 2000);
+        }
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showCopied).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+      return false;
     }
   </script>
 
