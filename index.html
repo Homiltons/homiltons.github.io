@@ -183,10 +183,10 @@
     <!--Home Section Start-->
     <section
       id="home"
-      class="banner"
-      style="background-image: url('images/background/test.png')"
-      data-stellar-background-ratio=".7"
+      class="banner banner-dynamic"
       data-scroll-index="0">
+      <div class="banner-bg-gradient" aria-hidden="true"></div>
+      <div id="particles-js" aria-hidden="true"></div>
       <div class="container">
         <!--Banner Content-->
         <div class="banner-caption">
@@ -941,6 +941,14 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <!--Site Main js-->
     <script src="js/main.js"></script>
+    <!--Particles js-->
+    <script src="js/particles.min.js"></script>
+    <script>
+      (function () {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        particlesJS.load("particles-js", "js/particles-home.json");
+      })();
+    </script>
     <!--Hide unless clicked js-->
     <script src="js/hidebib.js"></script>
 
