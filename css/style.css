@@ -890,61 +890,13 @@ nav.fixed-top .nav-item .nav-link:before {
 
 /*===Index Particles===*/
 
-.banner.banner-dynamic {
-    background-color: #0b1020;
-}
-
-.banner .banner-bg-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    background: linear-gradient(
-        135deg,
-        #0b1020 0%,
-        #121a2e 30%,
-        #182640 50%,
-        #121a2e 70%,
-        #0b1020 100%
-    );
-    background-size: 320% 320%;
-    animation: bannerGradientShift 20s ease infinite;
-}
-
-@keyframes bannerGradientShift {
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-}
-
-.banner.banner-dynamic > .container {
-    position: relative;
-    z-index: 10;
-}
-
 .banner #particles-js {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  z-index: 1;
-}
-
-.banner.banner-dynamic:after {
-    opacity: 0.42;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .banner .banner-bg-gradient {
-        animation: none;
-    }
+  z-index: 15;
 }
 
 
