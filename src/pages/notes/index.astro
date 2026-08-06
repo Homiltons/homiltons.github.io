@@ -21,7 +21,7 @@ const categories = [
   <section class="section section-muted">
     <div class="shell category-grid">
       {categories.map((category, index) => (
-        <a class="category-card" href={`#${category.label.toLowerCase()}`}>
+        <a class="category-card" href={`#${category.label.toLowerCase()}`} data-category-filter={category.label.toLowerCase()}>
           <span>{String(index + 1).padStart(2, '0')}</span><h3>{category.label}</h3><p>{category.description}</p>
         </a>
       ))}
@@ -30,12 +30,84 @@ const categories = [
   <section class="section">
     <div class="shell">
       {notes.length > 0 ? (
-        <div class="note-grid">
-          {notes.map((note) => <NoteCard href={`/notes/${note.id}/`} title={note.data.title} description={note.data.description} category={note.data.category} date={note.data.publishedAt} />)}
-        </div>
+        <>
+          <div class="notes-filter-bar">
+            <p class="notes-filter-status" aria-live="polite"><span data-visible-note-count>{notes.length}</span> <span data-filter-label>{notes.length === 1 ? 'note' : 'notes'}</span></p>
+            <button class="notes-filter-reset is-active" type="button" data-category-reset aria-pressed="true">All notes</button>
+          </div>
+          <div class="note-grid" data-note-grid>
+            {notes.map((note) => (
+              <div class="note-filter-item" data-note-category={note.data.category}>
+                <NoteCard href={`/notes/${note.id}/`} title={note.data.title} description={note.data.description} category={note.data.category} date={note.data.publishedAt} />
+              </div>
+            ))}
+          </div>
+          <div class="empty-state notes-filter-empty" data-filter-empty hidden>
+            <p>No published notes in this category yet. More ideas are on the way.</p>
+          </div>
+        </>
       ) : (
         <div class="empty-state"><p>The publishing structure is in place. Drafts can now be written in <code>src/content/notes</code> and will appear here automatically when marked ready.</p></div>
       )}
     </div>
   </section>
+
+  <script>
+    const categoryCards = Array.from(document.querySelectorAll<HTMLElement>('[data-category-filter]'));
+    const noteItems = Array.from(document.querySelectorAll<HTMLElement>('[data-note-category]'));
+    const resetButton = document.querySelector<HTMLButtonElement>('[data-category-reset]');
+    const noteGrid = document.querySelector<HTMLElement>('[data-note-grid]');
+    const emptyState = document.querySelector<HTMLElement>('[data-filter-empty]');
+    const visibleCount = document.querySelector<HTMLElement>('[data-visible-note-count]');
+    const filterLabel = document.querySelector<HTMLElement>('[data-filter-label]');
+    const categories = new Set(categoryCards.map((card) => card.dataset.categoryFilter));
+
+    const categoryFromHash = () => {
+      const value = window.location.hash.slice(1).toLowerCase();
+      return categories.has(value) ? value : 'all';
+    };
+
+    const applyFilter = (category: string, updateUrl = false) => {
+      const activeCategory = categories.has(category) ? category : 'all';
+      let count = 0;
+
+      noteItems.forEach((item) => {
+        const isVisible = activeCategory === 'all' || item.dataset.noteCategory === activeCategory;
+        item.hidden = !isVisible;
+        if (isVisible) count += 1;
+      });
+
+      categoryCards.forEach((card) => {
+        const isActive = card.dataset.categoryFilter === activeCategory;
+        card.classList.toggle('is-active', isActive);
+        if (isActive) card.setAttribute('aria-current', 'true');
+        else card.removeAttribute('aria-current');
+      });
+
+      resetButton?.classList.toggle('is-active', activeCategory === 'all');
+      resetButton?.setAttribute('aria-pressed', String(activeCategory === 'all'));
+      if (visibleCount) visibleCount.textContent = String(count);
+      if (filterLabel) filterLabel.textContent = activeCategory === 'all' ? (count === 1 ? 'note' : 'notes') : `${activeCategory} ${count === 1 ? 'note' : 'notes'}`;
+      if (noteGrid) noteGrid.hidden = count === 0;
+      if (emptyState) emptyState.hidden = count !== 0;
+
+      if (updateUrl) {
+        const nextUrl = activeCategory === 'all'
+          ? `${window.location.pathname}${window.location.search}`
+          : `#${activeCategory}`;
+        window.history.pushState(null, '', nextUrl);
+      }
+    };
+
+    categoryCards.forEach((card) => {
+      card.addEventListener('click', (event) => {
+        event.preventDefault();
+        applyFilter(card.dataset.categoryFilter ?? 'all', true);
+      });
+    });
+
+    resetButton?.addEventListener('click', () => applyFilter('all', true));
+    window.addEventListener('popstate', () => applyFilter(categoryFromHash()));
+    applyFilter(categoryFromHash());
+  </script>
 </BaseLayout>
