@@ -79,9 +79,20 @@ const notes = (await getCollection('notes', ({ data }) => !data.draft))
   <section class="section section-muted">
     <div class="shell">
       <SectionHeading eyebrow="Selected work" title="Research with a path toward useful, trustworthy AI." href="/research/" linkLabel="All research" />
-      <div class="publication-list">
-        {publications.map((publication) => <PublicationCard publication={publication} />)}
+      <div id="home-publications" class="publication-list expandable-collection" data-expanded="false">
+        {publications.map((publication) => <div class="expandable-item"><PublicationCard publication={publication} /></div>)}
       </div>
+      {publications.length > 2 && (
+        <button
+          class="expand-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="home-publications"
+          data-expand-toggle="home-publications"
+          data-open-label="Show all publications"
+          data-close-label="Show latest publications only"
+        >Show all publications</button>
+      )}
     </div>
   </section>
 
@@ -115,9 +126,37 @@ const notes = (await getCollection('notes', ({ data }) => !data.draft))
   <section class="section section-muted">
     <div class="shell">
       <SectionHeading eyebrow="Journeys" title="A life measured in more than papers and deadlines." href="/journeys/" linkLabel="See all journeys" />
-      <div class="journey-feature-list">
-        {journeys.map((journey) => <JourneyFeature journey={journey} />)}
+      <div id="home-journeys" class="journey-feature-list expandable-collection" data-expanded="false">
+        {journeys.map((journey) => <div class="expandable-item"><JourneyFeature journey={journey} /></div>)}
       </div>
+      {journeys.length > 2 && (
+        <button
+          class="expand-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="home-journeys"
+          data-expand-toggle="home-journeys"
+          data-open-label="Show all journeys"
+          data-close-label="Show latest journeys only"
+        >Show all journeys</button>
+      )}
     </div>
   </section>
+
+  <script>
+    document.querySelectorAll('[data-expand-toggle]').forEach((element) => {
+      if (!(element instanceof HTMLButtonElement)) return;
+      element.addEventListener('click', () => {
+        const targetId = element.dataset.expandToggle;
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (!target) return;
+        const expanded = element.getAttribute('aria-expanded') === 'true';
+        element.setAttribute('aria-expanded', String(!expanded));
+        target.dataset.expanded = String(!expanded);
+        element.textContent = expanded
+          ? element.dataset.openLabel ?? 'Show all'
+          : element.dataset.closeLabel ?? 'Show less';
+      });
+    });
+  </script>
 </BaseLayout>

@@ -17,6 +17,10 @@ const previewImages = journey.images.slice(0, 3);
     {previewImages.map((image, index) => (
       <a href={`/journeys/${journey.slug}/`} aria-label={`Open ${journey.location} photo story`}>
         <img src={image} alt={`${journey.location}, preview photograph ${index + 1}`} loading="lazy" />
+        <span class="photo-hover-copy" aria-hidden="true">
+          <strong>{journey.location}</strong>
+          <span>{journey.date} · Photo {String(index + 1).padStart(2, '0')}</span>
+        </span>
       </a>
     ))}
   </div>
