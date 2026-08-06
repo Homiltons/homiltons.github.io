@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="About" description="About Hongming Wang, an AI researcher working on large language models and agents.">
+  <header class="page-hero"><div class="shell"><p class="eyebrow">About</p><h1>Researcher by profession, curious person by default.</h1><p>I care about useful intelligence, clear explanations, and maintaining a life large enough to keep asking better questions.</p></div></header>
+  <section class="section">
+    <div class="shell intro-grid">
+      <div class="portrait-wrap"><img src="/images/profile/hongming-wang.jpg" alt="Hongming Wang" /></div>
+      <div class="intro-copy">
+        <p class="eyebrow">Hongming Wang · 王鸿铭</p>
+        <h2>AI research grounded in real interaction.</h2>
+        <p>I am a master’s student at Southern University of Science and Technology and an incoming Ph.D. student at Nanjing University. My research spans large language models, agents, deep research, GUI intelligent interaction, and AI for Science.</p>
+        <p>I want to develop automated systems that contribute to scientific discovery and healthcare while remaining reliable, inspectable, and genuinely helpful to people.</p>
+        <p>Outside the lab, I follow tennis, listen to music, take photographs, and travel when a free stretch of calendar appears. This website is where those parts meet.</p>
+        <div class="button-row"><a class="button" href={`mailto:${site.email}`}>Email me</a><a class="text-link" href="/files/Hongming_Wang_CV.pdf">Download CV ↗</a></div>
+        <div class="social-list">{site.socials.map((item) => <a href={item.href} target="_blank" rel="noreferrer">{item.label}</a>)}</div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

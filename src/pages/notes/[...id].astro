@@ -1,0 +1,25 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => !data.draft);
+  return notes.map((note) => ({ params: { id: note.id }, props: { note } }));
+}
+
+interface Props { note: CollectionEntry<'notes'>; }
+const { note } = Astro.props;
+const { Content } = await render(note);
+const formattedDate = new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(note.data.publishedAt);
+---
+
+<BaseLayout title={note.data.title} description={note.data.description} image={note.data.cover}>
+  <header class="page-hero">
+    <div class="shell">
+      <a class="back-link" href="/notes/">← All notes</a>
+      <p class="eyebrow">{note.data.category} · {formattedDate}</p>
+      <h1>{note.data.title}</h1><p>{note.data.description}</p>
+    </div>
+  </header>
+  <article class="section"><div class="shell prose"><Content /></div></article>
+</BaseLayout>

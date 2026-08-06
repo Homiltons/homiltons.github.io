@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JourneyCard from '../../components/JourneyCard.astro';
+import { journeys } from '../../data/journeys';
+---
+
+<BaseLayout title="Journeys" description="Travel photographs and field notes from places Hongming Wang has visited.">
+  <header class="page-hero"><div class="shell"><p class="eyebrow">Journeys</p><h1>Places that changed the pace of a week.</h1><p>Small photo stories from cities, landscapes, museums, and the moments between destinations.</p></div></header>
+  <section class="section"><div class="shell journey-grid">{journeys.map((journey, index) => <JourneyCard journey={journey} featured={index === 0} />)}</div></section>
+</BaseLayout>

@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PublicationCard from '../components/PublicationCard.astro';
+import JourneyCard from '../components/JourneyCard.astro';
+import NoteCard from '../components/NoteCard.astro';
+import { site } from '../data/site';
+import { news } from '../data/news';
+import { publications } from '../data/publications';
+import { journeys } from '../data/journeys';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout image="/images/hero/wadim-kashin-glitch.jpg">
+  <section class="hero">
+    <div class="shell hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">AI researcher · Digital garden</p>
+        <h1>Hi! I’m<br />Hongming Wang.</h1>
+        <p class="hero-subtitle">
+          I study large language models, agents, and intelligent interaction — and keep notes on the ideas, places, and people that shape the journey.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-light" href="/research/">Explore my research</a>
+          <a class="button button-ghost" href="/journeys/">Beyond the lab</a>
+        </div>
+        <div class="hero-aside">
+          <span>Incoming Ph.D. student · Nanjing University</span>
+          <span>LLM reasoning · Agents · AI for Science</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell intro-grid">
+      <div class="portrait-wrap">
+        <img src="/images/profile/hongming-wang.jpg" alt="Hongming Wang at the Hong Kong Museum of Art" />
+      </div>
+      <div class="intro-copy">
+        <p class="eyebrow">About me</p>
+        <h2>Building intelligent systems for discovery and real-world interaction.</h2>
+        <p>
+          I am currently completing my master’s degree at
+          <a href="https://www.sustech.edu.cn/">SUSTech</a>, advised by
+          <a href="https://minyang.me/">Prof. Min Yang</a> and
+          <a href="https://cs.nju.edu.cn/shiyh/">Prof. Yinghuan Shi</a>. I will join
+          <a href="https://www.nju.edu.cn/">Nanjing University</a> as a Ph.D. student in Fall 2026.
+        </p>
+        <p>
+          My work focuses on LLM reasoning, agents, deep research, GUI intelligent interaction, and AI for Science. Outside research, I enjoy tennis, music, photography, and getting lost in a new city.
+        </p>
+        <div class="button-row">
+          <a class="button" href="/about/">More about me</a>
+          <a class="text-link" href={`mailto:${site.email}`}>Start a conversation ↗</a>
+        </div>
+        <div class="social-list">
+          {site.socials.map((item) => <a href={item.href} target="_blank" rel="noreferrer">{item.label}</a>)}
+        </div>
+        <div class="news-block">
+          <h3>Recent news</h3>
+          <ol class="news-list">
+            {news.map((item) => (
+              <li>
+                <time datetime={item.date}>{item.displayDate}</time>
+                <a href={item.href} target="_blank" rel="noreferrer">{item.text}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="shell">
+      <SectionHeading eyebrow="Selected work" title="Research with a path toward useful, trustworthy AI." href="/research/" linkLabel="All research" />
+      <div class="publication-list">
+        {publications.map((publication) => <PublicationCard publication={publication} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="Working notes"
+        title="Ideas are better when they stay inspectable."
+        description="Reading notes, mathematical derivations, algorithm practice, and lessons from building AI systems."
+        href="/notes/"
+        linkLabel="Browse notes"
+      />
+      {notes.length > 0 ? (
+        <div class="note-grid">
+          {notes.map((note) => (
+            <NoteCard
+              href={`/notes/${note.id}/`}
+              title={note.data.title}
+              description={note.data.description}
+              category={note.data.category}
+              date={note.data.publishedAt}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state"><p>The note system is ready. The first long-form reading, math, and algorithm notes will appear here as they are edited for publication.</p></div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="shell">
+      <SectionHeading eyebrow="Journeys" title="A life measured in more than papers and deadlines." href="/journeys/" linkLabel="See all journeys" />
+      <div class="journey-grid">
+        {journeys.map((journey, index) => <JourneyCard journey={journey} featured={index === 0} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

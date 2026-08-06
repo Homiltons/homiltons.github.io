@@ -1,0 +1,21 @@
+---
+import type { Publication } from '../data/publications';
+interface Props { publication: Publication; }
+const { publication } = Astro.props;
+const authorParts = publication.authors.split('Hongming Wang');
+---
+
+<article class="publication-card">
+  <div class="publication-image"><img src={publication.image} alt={`Visual abstract for ${publication.title}`} loading="lazy" /></div>
+  <div class="publication-body">
+    <div class="publication-meta"><span>{publication.topic}</span><span>{publication.year}</span></div>
+    <h3>{publication.title}</h3>
+    <p class="publication-authors">{authorParts[0]}<strong><u>Hongming Wang</u></strong>{authorParts[1]}</p>
+    {publication.contribution && <p class="publication-note">{publication.contribution}</p>}
+    <p class="publication-venue"><strong>{publication.venue}</strong> · {publication.venueLong}</p>
+    <div class="publication-actions">
+      <a class="button button-small" href={publication.paper} target="_blank" rel="noreferrer">Read paper</a>
+      <details class="bibtex"><summary>BibTeX</summary><pre><code>{publication.bibtex}</code></pre></details>
+    </div>
+  </div>
+</article>

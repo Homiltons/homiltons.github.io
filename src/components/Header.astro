@@ -1,0 +1,49 @@
+---
+import { site } from '../data/site';
+
+const pathname = Astro.url.pathname;
+const links = [
+  { label: 'Home', href: '/' },
+  { label: 'Research', href: '/research/' },
+  { label: 'Notes', href: '/notes/' },
+  { label: 'Journeys', href: '/journeys/' },
+  { label: 'Life', href: '/life/' },
+  { label: 'About', href: '/about/' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="shell nav-shell">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <span class="brand-mark">H</span>
+      <span class="brand-name">Hongming Wang</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span class="sr-only">Open navigation</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+      {links.map((link) => {
+        const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+        return <a href={link.href} aria-current={isActive ? 'page' : undefined}>{link.label}</a>;
+      })}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('#site-nav');
+  const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    nav?.classList.toggle('is-open', !open);
+  });
+  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    nav.classList.remove('is-open');
+  }));
+</script>

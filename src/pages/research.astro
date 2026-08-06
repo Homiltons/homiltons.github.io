@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PublicationCard from '../components/PublicationCard.astro';
+import { publications } from '../data/publications';
+---
+
+<BaseLayout title="Research" description="Research, publications, and experience of Hongming Wang.">
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Research</p>
+      <h1>Reasoning, agents, and intelligent interaction.</h1>
+      <p>I work toward LLM-driven systems that can reason reliably, interact with digital environments, and support scientific discovery and healthcare.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+      <SectionHeading eyebrow="Experience" title="Where I have been learning and building." />
+      <div class="experience-list">
+        <article class="experience-item">
+          <time>Fall 2026 —</time>
+          <div><h3>Nanjing University</h3><p>Incoming Ph.D. student, continuing research on large language models and intelligent interaction.</p></div>
+        </article>
+        <article class="experience-item">
+          <time>Jan 2026 —</time>
+          <div><h3>Shanghai AI Laboratory</h3><p>Research internship focused on advanced AI systems.</p></div>
+        </article>
+        <article class="experience-item">
+          <time>2023 — 2026</time>
+          <div><h3>Southern University of Science and Technology</h3><p>M.S. in Engineering. Advised by Prof. Min Yang and Prof. Yinghuan Shi.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="shell">
+      <SectionHeading eyebrow="Publications" title="Selected publications and ongoing directions." />
+      <div class="publication-list">{publications.map((publication) => <PublicationCard publication={publication} />)}</div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <p class="eyebrow">A personal digital garden</p>
+      <p class="footer-title">Research, notes, and a life beyond the lab.</p>
+    </div>
+    <div class="footer-links" aria-label="Social links">
+      {site.socials.map((item) => <a href={item.href} target="_blank" rel="noreferrer">{item.label}</a>)}
+      <a href={`mailto:${site.email}`}>Email</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© {year} {site.name}</span><span>Built with curiosity and Astro.</span>
+  </div>
+</footer>

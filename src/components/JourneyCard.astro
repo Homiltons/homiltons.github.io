@@ -1,0 +1,14 @@
+---
+import type { Journey } from '../data/journeys';
+interface Props { journey: Journey; featured?: boolean; }
+const { journey, featured = false } = Astro.props;
+---
+
+<a class:list={['journey-card', { featured }]} href={`/journeys/${journey.slug}/`}>
+  <div class="journey-image"><img src={journey.cover} alt={`${journey.location} — ${journey.date}`} loading="lazy" /></div>
+  <div class="journey-copy">
+    <p class="journey-meta">{journey.location} · {journey.date}</p>
+    <h3>{journey.title}</h3><p>{journey.summary}</p>
+    <span class="text-link">View photo story <span aria-hidden="true">↗</span></span>
+  </div>
+</a>

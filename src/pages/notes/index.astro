@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const categories = [
+  { label: 'Reading', description: 'Books, papers, and ideas worth returning to.' },
+  { label: 'Math', description: 'Derivations, intuitions, and formula notes.' },
+  { label: 'Algorithms', description: 'Problems, patterns, and post-solution reflections.' },
+  { label: 'Research', description: 'Experiments, reproductions, and paper notes.' },
+  { label: 'Engineering', description: 'Tools, systems, and lessons from building.' },
+];
+---
+
+<BaseLayout title="Notes" description="Technical notes on AI research, mathematics, reading, and algorithms.">
+  <header class="page-hero">
+    <div class="shell"><p class="eyebrow">Notes</p><h1>A public notebook for ideas in progress.</h1><p>Long-form notes in Chinese or English, written to make difficult concepts easier to revisit and share.</p></div>
+  </header>
+  <section class="section section-muted">
+    <div class="shell category-grid">
+      {categories.map((category, index) => (
+        <a class="category-card" href={`#${category.label.toLowerCase()}`}>
+          <span>{String(index + 1).padStart(2, '0')}</span><h3>{category.label}</h3><p>{category.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell">
+      {notes.length > 0 ? (
+        <div class="note-grid">
+          {notes.map((note) => <NoteCard href={`/notes/${note.id}/`} title={note.data.title} description={note.data.description} category={note.data.category} date={note.data.publishedAt} />)}
+        </div>
+      ) : (
+        <div class="empty-state"><p>The publishing structure is in place. Drafts can now be written in <code>src/content/notes</code> and will appear here automatically when marked ready.</p></div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
