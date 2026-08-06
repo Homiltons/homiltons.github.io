@@ -39,9 +39,12 @@ const notes = (await getCollection('notes', ({ data }) => !data.draft))
   <section class="section">
     <div class="shell intro-grid">
       <div class="portrait-column">
-        <div class="portrait-wrap">
-          <img src="/images/profile/hongming-wang.jpg" alt="Hongming Wang at the Hong Kong Museum of Art" />
-        </div>
+        <figure class="portrait-figure">
+          <div class="portrait-wrap">
+            <img src="/images/profile/hongming-wang.jpg" alt="Hongming Wang at the Hong Kong Museum of Art" />
+          </div>
+          <figcaption>Photo by Xin Chen at <em>Hong Kong</em>.</figcaption>
+        </figure>
         <div class="social-list portrait-socials" aria-label="Social profiles">
           {site.socials.map((item) => <a href={item.href} target="_blank" rel="noreferrer">{item.label}</a>)}
         </div>
