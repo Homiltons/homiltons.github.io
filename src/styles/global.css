@@ -273,7 +273,8 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
   border-radius: var(--radius);
   background: rgba(255,255,255,.48);
 }
-.note-card { display: flex; flex-direction: column; }
+.note-card { display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease; }
+.note-card:hover, .note-card:focus-within { transform: translateY(-4px); border-color: rgba(47,122,110,.28); background: var(--white); box-shadow: 0 14px 36px rgba(23,26,23,.09); }
 .note-card h2 { margin-bottom: 16px; font-size: 1.55rem; }
 .note-card h2 a { text-decoration: none; }
 .note-card > p:not(.note-meta) { color: var(--ink-soft); }
