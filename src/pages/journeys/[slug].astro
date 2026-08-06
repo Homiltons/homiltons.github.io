@@ -11,7 +11,7 @@ const { journey } = Astro.props;
 ---
 
 <BaseLayout title={journey.location} description={journey.summary} image={journey.cover}>
-  <header class="page-hero">
+  <header class="page-hero journey-page-hero">
     <div class="shell"><a class="back-link" href="/journeys/">← All journeys</a><p class="eyebrow">{journey.location} · {journey.date}</p><h1>{journey.title}</h1><p>{journey.summary}</p></div>
   </header>
   <section class="section"><div class="shell gallery">{journey.images.map((image, index) => <img src={image} alt={`${journey.location}, photograph ${index + 1}`} loading={index > 1 ? 'lazy' : 'eager'} />)}</div></section>
