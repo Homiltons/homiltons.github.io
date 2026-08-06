@@ -1,0 +1,23 @@
+---
+import type { Journey } from '../data/journeys';
+
+interface Props { journey: Journey; }
+const { journey } = Astro.props;
+const previewImages = journey.images.slice(0, 3);
+---
+
+<article class="journey-feature">
+  <div class="journey-feature-copy">
+    <p class="journey-meta">{journey.location} · {journey.date}</p>
+    <h3><a href={`/journeys/${journey.slug}/`}>{journey.title}</a></h3>
+    <p>{journey.summary}</p>
+    <a class="text-link" href={`/journeys/${journey.slug}/`}>View photo story <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="journey-photo-strip" data-count={previewImages.length}>
+    {previewImages.map((image, index) => (
+      <a href={`/journeys/${journey.slug}/`} aria-label={`Open ${journey.location} photo story`}>
+        <img src={image} alt={`${journey.location}, preview photograph ${index + 1}`} loading="lazy" />
+      </a>
+    ))}
+  </div>
+</article>

@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import PublicationCard from '../components/PublicationCard.astro';
-import JourneyCard from '../components/JourneyCard.astro';
+import JourneyFeature from '../components/JourneyFeature.astro';
 import NoteCard from '../components/NoteCard.astro';
 import { site } from '../data/site';
 import { news } from '../data/news';
@@ -115,8 +115,8 @@ const notes = (await getCollection('notes', ({ data }) => !data.draft))
   <section class="section section-muted">
     <div class="shell">
       <SectionHeading eyebrow="Journeys" title="A life measured in more than papers and deadlines." href="/journeys/" linkLabel="See all journeys" />
-      <div class="journey-grid">
-        {journeys.map((journey, index) => <JourneyCard journey={journey} featured={index === 0} />)}
+      <div class="journey-feature-list">
+        {journeys.map((journey) => <JourneyFeature journey={journey} />)}
       </div>
     </div>
   </section>
