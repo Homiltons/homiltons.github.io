@@ -90,8 +90,10 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
   width: 34px;
   height: 34px;
   place-items: center;
-  border: 1px solid currentColor;
+  border: 1px solid var(--ink);
   border-radius: 50%;
+  color: var(--white);
+  background: var(--ink);
   font-family: Georgia, serif;
   font-style: italic;
 }
