@@ -19,6 +19,7 @@ export const journeys: Journey[] = [
     images: [
       '/images/journeys/chongzuo/chongzuo-01.jpg',
       '/images/journeys/chongzuo/chongzuo-02.jpg',
+      '/images/journeys/chongzuo/chongzuo-03.jpg',
     ],
   },
   {
